@@ -1,15 +1,25 @@
+'''
+Created on 2019-4-28
+@author: tyh
+'''
 import re
 
-class Grammar:
-    SymbolEnd  = "__END__"
-    SymbolNull  = "__NULL__"
-    SymbolStart  = "__START__"
+SymbolEnd  = "__END__"
+SymbolNull  = "__NULL__"
+SymbolStart  = "__START__"
+class Grammar(object):
+    '''
+    classdocs
+    '''
     Productions = []
     FST = {}
     IsTerminal = {}
     Nullable = set()
 
     def __init__(self,file):
+        '''
+        Constructor
+        '''
         content =""
         with open(file, 'r') as file:
             content = file.read()
@@ -35,18 +45,20 @@ class Grammar:
                 
         if len(self.Productions)!=0:
             production = Production()
-            production.Head = self.SymbolStart
+            production.Head = SymbolStart
             production.Nodes = [self.Productions[0].Head]
             production.script = "{}"
             self.Productions.append(production)
         
         self.computeAttributes()
-    
+    def GetProductionsOfHead(self,head):
+        return [prod for prod in self.Productions if prod.Head==head]
+        
     def CalcFst(self,symbols):
         fst = set()
         nullable = False
         for index,symbol in enumerate(symbols):
-            if symbol != self.SymbolNull:
+            if symbol != SymbolNull:
                 if symbol in self.FST:
                     fst = fst.union(self.FST[symbol])
             
@@ -59,9 +71,9 @@ class Grammar:
 
     def computeAttributes(self):
         #initialize special symbols
-        self.Nullable.add(self.SymbolNull)
-        self.IsTerminal[self.SymbolEnd] = True
-        self.FST[self.SymbolEnd] = set([self.SymbolEnd])
+        self.Nullable.add(SymbolNull)
+        self.IsTerminal[SymbolEnd] = True
+        self.FST[SymbolEnd] = set([SymbolEnd])
         
         #initialize IsTerminal & Nullable
         prodId = 0
@@ -96,8 +108,17 @@ class Grammar:
                     nothingChanged = False
                 
         
-class Production:
+class Production(object):
     Id = 0
     Head = ""
     Nodes = []
     Script = ""
+    
+    def IsNull(self):
+        return len(self.Nodes)==1 and self.Nodes[0] == SymbolNull
+    
+    def HashString(self):
+        hasv = self.Head
+        hasv += "/" + "+".join(self.Nodes)
+        return hasv
+    

@@ -1,10 +1,11 @@
 import unittest
 import os
-import syntax.grammar.grammar as grammar
+import syntax.grammar.Grammar as Grammar
+import syntax.parsing.LookaheadLR as LookaheadLR
 
-class TestStringMethods(unittest.TestCase):
+class TestSyntax(unittest.TestCase):
     def setUp(self):
-        self.gram = grammar.Grammar(os.path.dirname(__file__) + "/test_env/dnf0.txt") 
+        self.gram = Grammar.Grammar(os.path.dirname(__file__) + "/test_env/dnf0.txt") 
         
     def test_Grammar(self):
         self.assertEqual(len(self.gram.Nullable),4, 'Nullable.Size is wrong')
@@ -29,6 +30,12 @@ class TestStringMethods(unittest.TestCase):
                 expectFst = "BOOLEAN CHAR FLOAT ID INT STATIC VOID"
                 self.assertEqual((" ".join(sorted(fst))),expectFst, "Fst of '%s' is wrong" % symbol)
                              
-
+    def test_LookaheadLR(self):
+        lalr = LookaheadLR.LookaheadLR(self.gram)
+        lalr.BuildCanonicalCollection()
+        
+        self.assertEqual(len(lalr.States.items()), 249, "%s size is wrong(expect %s,but is %s)" %("state",249,len(lalr.States)))
+        
+        
 if __name__ == '__main__':
     unittest.main()
