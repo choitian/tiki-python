@@ -8,24 +8,19 @@ SymbolEnd  = "__END__"
 SymbolNull  = "__NULL__"
 SymbolStart  = "__START__"
 class Grammar(object):
-    '''
-    classdocs
-    '''
-    Productions = []
-    FST = {}
-    IsTerminal = {}
-    Nullable = set()
-
-    def __init__(self,file):
-        '''
-        Constructor
-        '''
+    def __init__(self,file):   
+        self.Productions = []    
+        self.FST = {}
+        self.IsTerminal = {}
+        self.Nullable = set()  
+               
         content =""
         with open(file, 'r') as file:
             content = file.read()
-            
+             
         rSymbol = r"(\s*(?P<head>\w+)\s*)\:(?P<prods>((\s*\w+\s*)+(\s*\{.*\}\s*)?\|?)+)(\s*;)"
         pattern = re.compile(rSymbol)
+        ProductionList = []
         for mo in re.finditer(pattern, content):
             head = mo.group("head").strip()
             prods = mo.group("prods")          
@@ -39,16 +34,18 @@ class Grammar(object):
                 prod = mo.group("prod").split()
                 production.Nodes = [node.strip() for node in prod if len(node)!=0]
                 script = mo.group("script")
-                production.script = script.strip() if script else "{}"
+                production.Script = script.strip() if script else "{}"
                 
-                self.Productions.append(production)
+                ProductionList.append(production)
                 
-        if len(self.Productions)!=0:
+        if len(ProductionList)!=0:
             production = Production()
             production.Head = SymbolStart
-            production.Nodes = [self.Productions[0].Head]
-            production.script = "{}"
+            production.Nodes = [ProductionList[0].Head]
+            production.Script = "{}"
+
             self.Productions.append(production)
+            self.Productions.extend(ProductionList)
         
         self.computeAttributes()
     def GetProductionsOfHead(self,head):
@@ -69,7 +66,7 @@ class Grammar(object):
                 nullable = True
         return fst,nullable        
 
-    def computeAttributes(self):
+    def computeAttributes(self):       
         #initialize special symbols
         self.Nullable.add(SymbolNull)
         self.IsTerminal[SymbolEnd] = True
@@ -109,10 +106,11 @@ class Grammar(object):
                 
         
 class Production(object):
-    Id = 0
-    Head = ""
-    Nodes = []
-    Script = ""
+    def __init__(self):
+        self.Id = 0
+        self.Head = ""
+        self.Nodes = []
+        self.Script = ""
     
     def IsNull(self):
         return len(self.Nodes)==1 and self.Nodes[0] == SymbolNull

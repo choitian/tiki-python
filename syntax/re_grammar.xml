@@ -1,0 +1,223 @@
+<?xml version="1.0" ?>
+<root>
+   <production head="__START__" id="0" len="1" nodes="exp" script="{}"/>
+   <production head="exp" id="1" len="1" nodes="or_exp" script="{}"/>
+   <production head="or_exp" id="2" len="1" nodes="cat_exp" script="{}"/>
+   <production head="or_exp" id="3" len="3" nodes="cat_exp|OR|or_exp" script="{ OR }"/>
+   <production head="cat_exp" id="4" len="1" nodes="post_exp" script="{}"/>
+   <production head="cat_exp" id="5" len="2" nodes="post_exp|cat_exp" script="{ CAT }"/>
+   <production head="post_exp" id="6" len="1" nodes="primary_exp" script="{}"/>
+   <production head="post_exp" id="7" len="2" nodes="primary_exp|STAR" script="{ STAR }"/>
+   <production head="post_exp" id="8" len="2" nodes="primary_exp|PLUS" script="{ PLUS }"/>
+   <production head="post_exp" id="9" len="2" nodes="primary_exp|QUESTION" script="{ QUESTION }"/>
+   <production head="primary_exp" id="10" len="1" nodes="LITERAL" script="{ LITERAL }"/>
+   <production head="primary_exp" id="11" len="1" nodes="ARRAY" script="{ ARRAY }"/>
+   <production head="primary_exp" id="12" len="1" nodes="DOT" script="{ DOT }"/>
+   <production head="primary_exp" id="13" len="1" nodes="CHAR" script="{ CHAR }"/>
+   <production head="primary_exp" id="14" len="3" nodes="LPAREN|exp|RPAREN" script="{}"/>
+   <state id="0">
+      <goto on="DOT" state="1"/>
+      <goto on="or_exp" state="2"/>
+      <goto on="primary_exp" state="3"/>
+      <goto on="cat_exp" state="4"/>
+      <goto on="ARRAY" state="5"/>
+      <goto on="exp" state="6"/>
+      <goto on="post_exp" state="7"/>
+      <goto on="LITERAL" state="8"/>
+      <goto on="LPAREN" state="9"/>
+      <goto on="CHAR" state="10"/>
+      <action do="shift" on="LITERAL"/>
+      <action do="shift" on="ARRAY"/>
+      <action do="shift" on="DOT"/>
+      <action do="shift" on="CHAR"/>
+      <action do="shift" on="LPAREN"/>
+   </state>
+   <state id="1">
+      <action do="reduce12" on="RPAREN"/>
+      <action do="reduce12" on="CHAR"/>
+      <action do="reduce12" on="QUESTION"/>
+      <action do="reduce12" on="PLUS"/>
+      <action do="reduce12" on="ARRAY"/>
+      <action do="reduce12" on="DOT"/>
+      <action do="reduce12" on="__END__"/>
+      <action do="reduce12" on="OR"/>
+      <action do="reduce12" on="STAR"/>
+      <action do="reduce12" on="LITERAL"/>
+      <action do="reduce12" on="LPAREN"/>
+   </state>
+   <state id="2">
+      <action do="reduce1" on="RPAREN"/>
+      <action do="reduce1" on="__END__"/>
+   </state>
+   <state id="3">
+      <goto on="STAR" state="16"/>
+      <goto on="QUESTION" state="17"/>
+      <goto on="PLUS" state="18"/>
+      <action do="reduce6" on="RPAREN"/>
+      <action do="reduce6" on="CHAR"/>
+      <action do="reduce6" on="DOT"/>
+      <action do="reduce6" on="ARRAY"/>
+      <action do="reduce6" on="__END__"/>
+      <action do="reduce6" on="OR"/>
+      <action do="reduce6" on="LITERAL"/>
+      <action do="reduce6" on="LPAREN"/>
+      <action do="shift" on="STAR"/>
+      <action do="shift" on="PLUS"/>
+      <action do="shift" on="QUESTION"/>
+   </state>
+   <state id="4">
+      <goto on="OR" state="14"/>
+      <action do="reduce2" on="RPAREN"/>
+      <action do="reduce2" on="__END__"/>
+      <action do="shift" on="OR"/>
+   </state>
+   <state id="5">
+      <action do="reduce11" on="RPAREN"/>
+      <action do="reduce11" on="CHAR"/>
+      <action do="reduce11" on="QUESTION"/>
+      <action do="reduce11" on="PLUS"/>
+      <action do="reduce11" on="ARRAY"/>
+      <action do="reduce11" on="DOT"/>
+      <action do="reduce11" on="__END__"/>
+      <action do="reduce11" on="OR"/>
+      <action do="reduce11" on="STAR"/>
+      <action do="reduce11" on="LITERAL"/>
+      <action do="reduce11" on="LPAREN"/>
+   </state>
+   <state id="6">
+      <action do="accept" on="__END__"/>
+   </state>
+   <state id="7">
+      <goto on="DOT" state="1"/>
+      <goto on="primary_exp" state="3"/>
+      <goto on="ARRAY" state="5"/>
+      <goto on="post_exp" state="7"/>
+      <goto on="LITERAL" state="8"/>
+      <goto on="CHAR" state="10"/>
+      <goto on="LPAREN" state="9"/>
+      <goto on="cat_exp" state="13"/>
+      <action do="reduce4" on="RPAREN"/>
+      <action do="reduce4" on="__END__"/>
+      <action do="reduce4" on="OR"/>
+      <action do="shift" on="LITERAL"/>
+      <action do="shift" on="ARRAY"/>
+      <action do="shift" on="DOT"/>
+      <action do="shift" on="CHAR"/>
+      <action do="shift" on="LPAREN"/>
+   </state>
+   <state id="8">
+      <action do="reduce10" on="RPAREN"/>
+      <action do="reduce10" on="CHAR"/>
+      <action do="reduce10" on="QUESTION"/>
+      <action do="reduce10" on="PLUS"/>
+      <action do="reduce10" on="ARRAY"/>
+      <action do="reduce10" on="DOT"/>
+      <action do="reduce10" on="__END__"/>
+      <action do="reduce10" on="OR"/>
+      <action do="reduce10" on="STAR"/>
+      <action do="reduce10" on="LITERAL"/>
+      <action do="reduce10" on="LPAREN"/>
+   </state>
+   <state id="9">
+      <goto on="DOT" state="1"/>
+      <goto on="or_exp" state="2"/>
+      <goto on="primary_exp" state="3"/>
+      <goto on="cat_exp" state="4"/>
+      <goto on="ARRAY" state="5"/>
+      <goto on="exp" state="11"/>
+      <goto on="post_exp" state="7"/>
+      <goto on="LITERAL" state="8"/>
+      <goto on="LPAREN" state="9"/>
+      <goto on="CHAR" state="10"/>
+      <action do="shift" on="LITERAL"/>
+      <action do="shift" on="ARRAY"/>
+      <action do="shift" on="DOT"/>
+      <action do="shift" on="CHAR"/>
+      <action do="shift" on="LPAREN"/>
+   </state>
+   <state id="10">
+      <action do="reduce13" on="RPAREN"/>
+      <action do="reduce13" on="CHAR"/>
+      <action do="reduce13" on="QUESTION"/>
+      <action do="reduce13" on="PLUS"/>
+      <action do="reduce13" on="ARRAY"/>
+      <action do="reduce13" on="DOT"/>
+      <action do="reduce13" on="__END__"/>
+      <action do="reduce13" on="OR"/>
+      <action do="reduce13" on="STAR"/>
+      <action do="reduce13" on="LITERAL"/>
+      <action do="reduce13" on="LPAREN"/>
+   </state>
+   <state id="11">
+      <goto on="RPAREN" state="12"/>
+      <action do="shift" on="RPAREN"/>
+   </state>
+   <state id="12">
+      <action do="reduce14" on="RPAREN"/>
+      <action do="reduce14" on="CHAR"/>
+      <action do="reduce14" on="QUESTION"/>
+      <action do="reduce14" on="PLUS"/>
+      <action do="reduce14" on="DOT"/>
+      <action do="reduce14" on="ARRAY"/>
+      <action do="reduce14" on="__END__"/>
+      <action do="reduce14" on="OR"/>
+      <action do="reduce14" on="STAR"/>
+      <action do="reduce14" on="LITERAL"/>
+      <action do="reduce14" on="LPAREN"/>
+   </state>
+   <state id="13">
+      <action do="reduce5" on="RPAREN"/>
+      <action do="reduce5" on="__END__"/>
+      <action do="reduce5" on="OR"/>
+   </state>
+   <state id="14">
+      <goto on="DOT" state="1"/>
+      <goto on="primary_exp" state="3"/>
+      <goto on="cat_exp" state="4"/>
+      <goto on="ARRAY" state="5"/>
+      <goto on="or_exp" state="15"/>
+      <goto on="post_exp" state="7"/>
+      <goto on="LITERAL" state="8"/>
+      <goto on="LPAREN" state="9"/>
+      <goto on="CHAR" state="10"/>
+      <action do="shift" on="LITERAL"/>
+      <action do="shift" on="ARRAY"/>
+      <action do="shift" on="DOT"/>
+      <action do="shift" on="CHAR"/>
+      <action do="shift" on="LPAREN"/>
+   </state>
+   <state id="15">
+      <action do="reduce3" on="RPAREN"/>
+      <action do="reduce3" on="__END__"/>
+   </state>
+   <state id="16">
+      <action do="reduce7" on="RPAREN"/>
+      <action do="reduce7" on="CHAR"/>
+      <action do="reduce7" on="ARRAY"/>
+      <action do="reduce7" on="DOT"/>
+      <action do="reduce7" on="__END__"/>
+      <action do="reduce7" on="OR"/>
+      <action do="reduce7" on="LITERAL"/>
+      <action do="reduce7" on="LPAREN"/>
+   </state>
+   <state id="17">
+      <action do="reduce9" on="RPAREN"/>
+      <action do="reduce9" on="CHAR"/>
+      <action do="reduce9" on="ARRAY"/>
+      <action do="reduce9" on="DOT"/>
+      <action do="reduce9" on="__END__"/>
+      <action do="reduce9" on="OR"/>
+      <action do="reduce9" on="LITERAL"/>
+      <action do="reduce9" on="LPAREN"/>
+   </state>
+   <state id="18">
+      <action do="reduce8" on="RPAREN"/>
+      <action do="reduce8" on="CHAR"/>
+      <action do="reduce8" on="ARRAY"/>
+      <action do="reduce8" on="DOT"/>
+      <action do="reduce8" on="__END__"/>
+      <action do="reduce8" on="OR"/>
+      <action do="reduce8" on="LITERAL"/>
+      <action do="reduce8" on="LPAREN"/>
+   </state>
+</root>
